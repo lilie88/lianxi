@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:component-scan base-package="com.lilie" annotation-config="true">
+        <!--排除注解controller，因为只需要mvc的配置文件扫描controller就行了-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--配置开启对aop的支持，不需要扫描器-->
+    <!--<aop:aspectj-autoproxy/>-->
+
+    <!-- 二期新增spring schedule的时候新增的 -->
+    <!--context这个标签的作用是applicationContext-datasource.xml中的属性value值从datasource.properties读取出来，并显示在xml文件中。
+    否则，value还是{}显示，并不是值显示-->
+    <context:property-placeholder location="classpath:datasource.properties"/>
+    <!--spring schedule定时任务配置-->
+    <!--<task:annotation-dviven/>-->
+
+    <!--当spring容器启动的时候，就会加载以下两个配置文件-->
+    <!--<import resource="applicationContext-spring-session.xml"/>-->
+    <import resource="applicationContext-datasource.xml"/>
+</beans>
