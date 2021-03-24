@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--声明bean元素,id是程序唯一识别符,可以自定义。class是目标对象类所在的位置-->
+    <bean id="helloSpring" class="cn.spring.hellospring.HelloSpring">
+        <!--name是对象中的属性名，和set方法中的set后面的名一致-->
+        <property name="who">
+            <!-- value是我们要对属性进行的赋值，也就是用户要给的值(目标对象中必须有setXXX方法)-->
+            <value>Spring</value>
+        </property>
+    </bean>
+
+</beans>

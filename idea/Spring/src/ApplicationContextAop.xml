@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--声明bean元素,id是程序唯一识别符,class是目标对象所在的位置-->
+    <!--注意,bean元素的目标对象中必须有空参构造方法-->
+    <bean id="user" class="cn.spring.logger.entity.User"/>
+    <bean id="userDaoImpl" class="cn.spring.logger.dao.impl.UserDaoImpl"/>
+    <bean id="userService" class="cn.spring.logger.service.impl.UserServiceImpl">
+        <!--name是对象中的属性名-->
+        <!-- ref是我们要对属性进行的赋值(赋值的内容可以是我们的bean元素)-->
+        <property name="dao" ref="userDaoImpl"/>
+    </bean>
+
+    <!-- 声明代理类(增强处理所在的类)-->
+    <bean id="userServiceLogger" class="cn.spring.logger.aop.UserServiceLogger"/>
+    <!-- 配置AOP相关参数-->
+    <aop:config>
+        <!-- 定义切入点相关信息(我们通过切入点来查询连接点,以便后期做增强处理)-->
+        <aop:pointcut id="pointCut" expression="execution(
+               public void addNewUser(cn.spring.logger.entity.User)
+       )"/>
+        <!-- 定义切面(切入点加增强处理,就是我们的切面)-->
+        <aop:aspect ref="userServiceLogger">
+            <!-- 定义前置增强(pointcut-ref指定切入点)-->
+            <aop:before method="beforeAdvice" pointcut-ref="pointCut"/>
+            <!-- 定义后置增强(pointcut-ref指定切入点)-->
+            <aop:after-returning method="afterReturningAdvice" pointcut-ref="pointCut" returning="res"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
